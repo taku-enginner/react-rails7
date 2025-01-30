@@ -1,0 +1,50 @@
+version: "3.8"
+services:
+  db:
+    image: postgres:latest
+    platform: linux/amd64
+    environment:
+      TZ: Asia/Tokyo
+      POSTGRES_PASSWORD: password
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+  redis:
+    image: redis:latest
+    command: redis-server
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis:/var/lib/redis/data
+  back:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    env_file:
+      - ./backend/.env.local
+    command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -b '0.0.0.0'"
+    volumes:
+      - ./backend:/app
+      - bundle_data:/usr/local/bundle:cached  # バンドルデータを永続化するためのボリュームをマウント
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+      - redis
+    tty: true
+    stdin_open: true
+  front:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    volumes:
+      - ./frontend:/app
+    command: yarn start
+    ports:
+      - "8000:3000"
+volumes:
+  postgres_data:
+  bundle_data:
+  redis:
+
