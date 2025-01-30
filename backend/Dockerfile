@@ -2,6 +2,8 @@ ARG RUBY_VERSION=ruby:3.2.5
 
 FROM $RUBY_VERSION
 
+RUN apt-get update -qq && apt-get install -y nodejs postgresql-client yarn vim
+
 WORKDIR /app
 
 
