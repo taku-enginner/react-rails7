@@ -91,6 +91,8 @@ GEM
     debug (1.10.0)
       irb (~> 1.10)
       reline (>= 0.3.8)
+    dockerfile-rails (1.7.3)
+      rails (>= 3.0.0)
     drb (2.2.1)
     erubi (1.13.1)
     globalid (1.2.1)
@@ -200,6 +202,7 @@ PLATFORMS
 DEPENDENCIES
   bootsnap
   debug
+  dockerfile-rails (>= 1.7)
   pg (~> 1.1)
   puma (>= 5.0)
   rack-cors
@@ -210,4 +213,4 @@ RUBY VERSION
    ruby 3.2.5p208
 
 BUNDLED WITH
-   2.6.3
+   2.4.19
